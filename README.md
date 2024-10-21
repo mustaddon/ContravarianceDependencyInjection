@@ -14,7 +14,7 @@ var services = new ServiceCollection()
     .BuildServiceProvider();
 
 
-// inheritance example Ñontracts
+// inheritance example contracts
 // ContractBase -> ContractA -> ContractAB -> ContractABC
 // ContractBase -> ContractB
 
