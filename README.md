@@ -1,0 +1,2 @@
+# ContravarianceDependencyInjection
+Contravariance extensions to IServiceCollection
