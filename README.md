@@ -35,4 +35,4 @@ Console.WriteLine("  Result: " +
         .MyMethod(new ContractB()));
 ```
 
-[Program.cs](https://github.com/mustaddon/ContravarianceDependencyInjection/tree/master/Example/Program.cs)
+[Program.cs](https://github.com/mustaddon/ContravarianceDependencyInjection/blob/main/Example/Program.cs)
