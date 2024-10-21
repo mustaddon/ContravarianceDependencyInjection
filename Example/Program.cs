@@ -1,8 +1,7 @@
-# ContravarianceDependencyInjection [![NuGet version](https://badge.fury.io/nu/ContravarianceDependencyInjection.svg?)](http://badge.fury.io/nu/ContravarianceDependencyInjection)
-Contravariance extensions to IServiceCollection.
+﻿using ContravarianceDependencyInjection;
+using Example;
+using Microsoft.Extensions.DependencyInjection;
 
-### Example
-```C#
 var services = new ServiceCollection()
     .AddTransient<IExampleContravariance<ContractBase>, ExampleService<ContractBase>>()
     .AddTransient<IExampleContravariance<ContractAB>, ExampleService<ContractAB>>()
@@ -14,7 +13,7 @@ var services = new ServiceCollection()
     .BuildServiceProvider();
 
 
-// inheritance example �ontracts
+// inheritance example Сontracts
 // ContractBase -> ContractA -> ContractAB -> ContractABC
 // ContractBase -> ContractB
 
@@ -33,6 +32,3 @@ Console.WriteLine("  Result: " +
 Console.WriteLine("  Result: " +
     services.GetRequiredService<IExampleContravariance<ContractB>>()
         .MyMethod(new ContractB()));
-```
-
-[Program.cs](https://github.com/mustaddon/ContravarianceDependencyInjection/tree/master/Example/Program.cs)
