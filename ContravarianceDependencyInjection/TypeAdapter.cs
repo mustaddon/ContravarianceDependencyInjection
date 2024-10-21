@@ -58,7 +58,8 @@ internal class TypeAdapter(IServiceCollection services, Type openType, SearchStr
 
             var type = sd.ServiceType;
 
-            if (type.IsGenericType
+            if (type.IsInterface
+                && type.IsGenericType
                 && !type.IsGenericTypeDefinition
                 && type.GetGenericTypeDefinition() == openType)
                 yield return type;

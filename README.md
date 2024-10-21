@@ -1,4 +1,4 @@
-# ContravarianceDependencyInjection [![NuGet version](https://badge.fury.io/nu/ContravarianceDependencyInjection.svg?)](http://badge.fury.io/nu/ContravarianceDependencyInjection)
+# ContravarianceDependencyInjection [![NuGet version](https://badge.fury.io/nu/ContravarianceDependencyInjection.svg?1)](http://badge.fury.io/nu/ContravarianceDependencyInjection)
 Contravariance extensions to IServiceCollection.
 
 ### Example
