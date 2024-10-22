@@ -14,17 +14,17 @@ internal static class ServiceRegistrar
         var proxyType = ProxyFactory.CreateType(serviceType,
             new CustomAttributeBuilder(_fromKeyedServicesAttributeCtor, [serviceKey]));
 
-        var existServiceDescriptor = services.LastOrDefault(s => s.ServiceType == serviceType && !s.IsKeyedService);
-        var existServiceImplementationType = existServiceDescriptor?.ImplementationType;
+        var existGenericService = services.LastOrDefault(s => s.ServiceType == serviceType && !s.IsKeyedService && s.ImplementationType?.IsProxyType() == false);
+        var existGenericImplementation = existGenericService?.ImplementationType;
 
-        if (existServiceImplementationType != null)
+        if (existGenericImplementation != null)
         {
-            services.Add(new ServiceDescriptor(existServiceImplementationType, serviceKey, existServiceImplementationType, existServiceDescriptor!.Lifetime));
+            services.Add(new ServiceDescriptor(existGenericImplementation, serviceKey, existGenericImplementation, existGenericService!.Lifetime));
         }
 
         services.AddKeyedSingleton(serviceKey, (s, k) => new TypeAdapter(services, serviceType, strategy));
 
-        services.AddKeyedTransient(serviceKey, (s, k) => ServiceAdapterFactory.Create(s, k, existServiceImplementationType));
+        services.AddKeyedTransient(serviceKey, (s, k) => ServiceAdapterFactory.Create(s, k, existGenericImplementation));
 
         services.Add(new ServiceDescriptor(serviceType, proxyType, lifetime));
     }
