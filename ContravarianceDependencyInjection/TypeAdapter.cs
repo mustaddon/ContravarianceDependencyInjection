@@ -11,10 +11,10 @@ internal class TypeAdapter(IServiceCollection services, Type openType, SearchStr
 
     public Type? FindServiceType(Type type)
     {
-        return _found.GetOrAdd(type, (x) => new(() => CreateCacheValue(x))).Value;
+        return _found.GetOrAdd(type, (x) => new(() => FindValue(x))).Value;
     }
 
-    Type? CreateCacheValue(Type type)
+    Type? FindValue(Type type)
     {
         if (_registred.Value.Contains(type))
             return type;
