@@ -7,9 +7,9 @@
 	<LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
 	<AssemblyOriginatorKeyFile>..\ContravarianceDependencyInjection.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.4</AssemblyVersion>
-    <FileVersion>1.0.4</FileVersion>
-    <Version>1.0.4</Version>
+    <AssemblyVersion>1.0.5</AssemblyVersion>
+    <FileVersion>1.0.5</FileVersion>
+    <Version>1.0.5</Version>
     <Company></Company>
     <Authors>Leonid Salavatov</Authors>
     <Copyright>Leonid Salavatov 2024</Copyright>

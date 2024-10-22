@@ -24,12 +24,15 @@ internal class TypeAdapter(IServiceCollection services, Type openType, SearchStr
         if (strategy <= SearchStrategy.LastRegistred)
             return candidates.FirstOrDefault();
 
-        candidates = candidates.ToList();
+        var candidatesList = candidates.ToList();
 
-        var ranked = candidates.Select(x => new
+        if (candidatesList.Count < 2)
+            return candidatesList.FirstOrDefault();
+
+        var ranked = candidatesList.Select(x => new
         {
             Type = x,
-            Rank = candidates.Where(x.IsAssignableFrom).Count()
+            Rank = candidatesList.Where(x.IsAssignableFrom).Count()
         });
 
         ranked = strategy == SearchStrategy.MaxCloser
