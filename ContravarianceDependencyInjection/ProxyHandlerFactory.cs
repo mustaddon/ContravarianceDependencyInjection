@@ -12,11 +12,11 @@ internal class ProxyHandlerFactory
 
         return new ProxyHandler((proxy, method, args) =>
         {
-            var currentType = proxy.GetDeclaringType();
+            var targetType = proxy.GetDeclaringType();
 
-            var serviceType = serviceTypeAdapter.GetServiceType(currentType);
+            var serviceType = serviceTypeAdapter.GetServiceType(targetType);
 
-            var service = serviceFactory(currentType, serviceType);
+            var service = serviceFactory(targetType, serviceType);
 
             return method.Invoke(service, args);
         });
@@ -24,23 +24,17 @@ internal class ProxyHandlerFactory
 
     static Func<Type, Type?, object> GetServiceFactory(IServiceProvider services, object? serviceKey, Type? defaultGenericServiceType)
     {
-        if (defaultGenericServiceType != null)
-            return (targetType, serviceType) =>
-            {
-                if (serviceType != null)
-                    return services.GetRequiredService(serviceType);
-
-                return services.GetRequiredKeyedService(defaultGenericServiceType
-                    .MakeGenericType(targetType.GenericTypeArguments), serviceKey);
-            };
-
-
         return (targetType, serviceType) =>
         {
-            if (serviceType == null)
-                throw new InvalidOperationException($"Could not find a matching registered service for type '{targetType}'.");
+            if (serviceType != null)
+                return services.GetRequiredService(serviceType);
 
-            return services.GetRequiredService(serviceType);
+            if (defaultGenericServiceType != null)
+                return services.GetRequiredKeyedService(
+                    defaultGenericServiceType.MakeGenericType(targetType.GenericTypeArguments),
+                    serviceKey);
+
+            throw new InvalidOperationException($"Could not find a matching registered service for type '{targetType}'.");
         };
     }
 }
