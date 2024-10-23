@@ -3,12 +3,12 @@ using Example;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection()
-    .AddTransient<IExampleContravariance<ContractBase>, ExampleService<ContractBase>>()
-    .AddTransient<IExampleContravariance<ContractAB>, ExampleService<ContractAB>>()
-    .AddTransient<IExampleContravariance<ContractA>, ExampleService<ContractA>>()
+    .AddTransient<IExampleContravariant<ContractBase>, ExampleService<ContractBase>>()
+    .AddTransient<IExampleContravariant<ContractAB>, ExampleService<ContractAB>>()
+    .AddTransient<IExampleContravariant<ContractA>, ExampleService<ContractA>>()
 
-    // REQUIRED: Adds contravariance injection for registred services IExampleContravariance
-    .AddContravariance(typeof(IExampleContravariance<>), SearchStrategy.MaxCloser)
+    // REQUIRED: Adds contravariance injection for registred IExampleContravariant services 
+    .AddContravariance(typeof(IExampleContravariant<>), SearchStrategy.MaxCloser)
 
     .BuildServiceProvider();
 
@@ -22,7 +22,7 @@ var services = new ServiceCollection()
 // IExampleContravariance<ContractABC> is not registered,
 // IExampleContravariance<ContractAB> is invoked instead 
 Console.WriteLine("  Result: " +
-    services.GetRequiredService<IExampleContravariance<ContractABC>>()
+    services.GetRequiredService<IExampleContravariant<ContractABC>>()
         .MyMethod(new ContractABC()));
 
 
@@ -30,5 +30,5 @@ Console.WriteLine("  Result: " +
 // IExampleContravariance<ContractB> is not registered,
 // IExampleContravariance<ContractBase> is invoked instead 
 Console.WriteLine("  Result: " +
-    services.GetRequiredService<IExampleContravariance<ContractB>>()
+    services.GetRequiredService<IExampleContravariant<ContractB>>()
         .MyMethod(new ContractB()));

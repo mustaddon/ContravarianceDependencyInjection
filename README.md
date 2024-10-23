@@ -1,15 +1,15 @@
-# ContravarianceDependencyInjection [![NuGet version](https://badge.fury.io/nu/ContravarianceDependencyInjection.svg?1)](http://badge.fury.io/nu/ContravarianceDependencyInjection)
+# ContravarianceDependencyInjection [![NuGet version](https://badge.fury.io/nu/ContravarianceDependencyInjection.svg?2)](http://badge.fury.io/nu/ContravarianceDependencyInjection)
 Contravariance extensions to IServiceCollection.
 
 ### Example
 ```C#
 var services = new ServiceCollection()
-    .AddTransient<IExampleContravariance<ContractBase>, ExampleService<ContractBase>>()
-    .AddTransient<IExampleContravariance<ContractAB>, ExampleService<ContractAB>>()
-    .AddTransient<IExampleContravariance<ContractA>, ExampleService<ContractA>>()
+    .AddTransient<IExampleContravariant<ContractBase>, ExampleService<ContractBase>>()
+    .AddTransient<IExampleContravariant<ContractAB>, ExampleService<ContractAB>>()
+    .AddTransient<IExampleContravariant<ContractA>, ExampleService<ContractA>>()
 
-    // REQUIRED: Adds contravariance injection for registred services IExampleContravariance
-    .AddContravariance(typeof(IExampleContravariance<>), SearchStrategy.MaxCloser)
+    // REQUIRED: Adds contravariance injection for registred services IExampleContravariant
+    .AddContravariance(typeof(IExampleContravariant<>), SearchStrategy.MaxCloser)
 
     .BuildServiceProvider();
 
@@ -19,19 +19,17 @@ var services = new ServiceCollection()
 // ContractBase -> ContractB
 
 
-
-// IExampleContravariance<ContractABC> is not registered,
-// IExampleContravariance<ContractAB> is invoked instead 
+// IExampleContravariant<ContractABC> is not registered,
+// IExampleContravariant<ContractAB> is invoked instead 
 Console.WriteLine("  Result: " +
-    services.GetRequiredService<IExampleContravariance<ContractABC>>()
+    services.GetRequiredService<IExampleContravariant<ContractABC>>()
         .MyMethod(new ContractABC()));
 
 
-
-// IExampleContravariance<ContractB> is not registered,
-// IExampleContravariance<ContractBase> is invoked instead 
+// IExampleContravariant<ContractB> is not registered,
+// IExampleContravariant<ContractBase> is invoked instead 
 Console.WriteLine("  Result: " +
-    services.GetRequiredService<IExampleContravariance<ContractB>>()
+    services.GetRequiredService<IExampleContravariant<ContractB>>()
         .MyMethod(new ContractB()));
 ```
 
