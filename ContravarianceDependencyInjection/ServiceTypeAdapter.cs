@@ -4,12 +4,12 @@ using System.Reflection;
 
 namespace ContravarianceDependencyInjection;
 
-internal class TypeAdapter(IServiceCollection services, Type openType, SearchStrategy strategy)
+internal class ServiceTypeAdapter(IServiceCollection services, Type openType, SearchStrategy strategy)
 {
     readonly Lazy<HashSet<Type>> _registred = new(() => new(GetFactoryTypes(services, openType, strategy)));
     readonly ConcurrentDictionary<Type, Lazy<Type?>> _found = new();
 
-    public Type? FindServiceType(Type type)
+    public Type? GetServiceType(Type type)
     {
         return _found.GetOrAdd(type, (x) => new(() => FindValue(x))).Value;
     }

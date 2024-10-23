@@ -22,9 +22,9 @@ internal static class ServiceRegistrar
             services.Add(new ServiceDescriptor(existGenericImplementation, serviceKey, existGenericImplementation, existGenericService!.Lifetime));
         }
 
-        services.AddKeyedSingleton(serviceKey, (s, k) => new TypeAdapter(services, serviceType, strategy));
+        services.AddKeyedSingleton(serviceKey, (s, k) => new ServiceTypeAdapter(services, serviceType, strategy));
 
-        services.AddKeyedTransient(serviceKey, (s, k) => ServiceAdapterFactory.Create(s, k, existGenericImplementation));
+        services.AddKeyedTransient(serviceKey, (s, k) => ProxyHandlerFactory.Create(s, k, existGenericImplementation));
 
         services.Add(new ServiceDescriptor(serviceType, proxyType, lifetime));
     }

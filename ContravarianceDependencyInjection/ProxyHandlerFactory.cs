@@ -3,18 +3,18 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ContravarianceDependencyInjection;
 
-internal class ServiceAdapterFactory
+internal class ProxyHandlerFactory
 {
     public static ProxyHandler Create(IServiceProvider services, object? serviceKey, Type? defaultGenericServiceType)
     {
-        var typeAdapter = services.GetRequiredKeyedService<TypeAdapter>(serviceKey);
+        var serviceTypeAdapter = services.GetRequiredKeyedService<ServiceTypeAdapter>(serviceKey);
         var serviceFactory = GetServiceFactory(services, serviceKey, defaultGenericServiceType);
 
         return new ProxyHandler((proxy, method, args) =>
         {
             var currentType = proxy.GetDeclaringType();
 
-            var serviceType = typeAdapter.FindServiceType(currentType);
+            var serviceType = serviceTypeAdapter.GetServiceType(currentType);
 
             var service = serviceFactory(currentType, serviceType);
 
