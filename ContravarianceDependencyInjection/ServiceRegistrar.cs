@@ -1,6 +1,5 @@
 ﻿using DispatchProxyAdvanced;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using System.Reflection.Emit;
 
 namespace ContravarianceDependencyInjection;
@@ -12,7 +11,7 @@ internal static class ServiceRegistrar
         var serviceKey = string.Concat(KEY_PREFIX, Guid.NewGuid().ToString("N"));
 
         var proxyType = ProxyFactory.CreateType(serviceType,
-            new CustomAttributeBuilder(_fromKeyedServicesAttributeCtor, [serviceKey]));
+            new CustomAttributeBuilder(typeof(FromKeyedServicesAttribute).GetConstructor([typeof(object)])!, [serviceKey]));
 
         var existGenericService = services.LastOrDefault(s => s.ServiceType == serviceType && !s.IsKeyedService && s.ImplementationType != null && !s.ImplementationType.IsContravarianceDI());
         var existGenericImplementation = existGenericService?.ImplementationType;
@@ -30,7 +29,4 @@ internal static class ServiceRegistrar
     }
 
     internal const string KEY_PREFIX = "ContravarianceDI_";
-
-    static readonly ConstructorInfo _fromKeyedServicesAttributeCtor = typeof(FromKeyedServicesAttribute).GetConstructor([typeof(object)])!;
-
 }
