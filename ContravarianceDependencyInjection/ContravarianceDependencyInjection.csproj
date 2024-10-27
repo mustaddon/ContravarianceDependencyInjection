@@ -7,9 +7,9 @@
 	<LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
 	<AssemblyOriginatorKeyFile>..\ContravarianceDependencyInjection.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.0.8</AssemblyVersion>
-    <FileVersion>1.0.8</FileVersion>
-    <Version>1.0.8</Version>
+    <AssemblyVersion>1.0.9</AssemblyVersion>
+    <FileVersion>1.0.9</FileVersion>
+    <Version>1.0.9</Version>
     <Company></Company>
     <Authors>Leonid Salavatov</Authors>
     <Copyright>Leonid Salavatov 2024</Copyright>
@@ -17,7 +17,7 @@
     <Product>ContravarianceDependencyInjection</Product>
     <Title>ContravarianceDependencyInjection</Title>
     <Description>Contravariance extensions to IServiceCollection</Description>
-    <PackageTags>contravariance dependency-injection di DependencyInjection</PackageTags>
+    <PackageTags>contravariance dependency-injection contravariant di DependencyInjection service-provider service-collection extension</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/mustaddon/ContravarianceDependencyInjection</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mustaddon/ContravarianceDependencyInjection</RepositoryUrl>
@@ -29,7 +29,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DispatchProxyAdvanced" Version="2.0.6" />
+    <PackageReference Include="DispatchProxyAdvanced" Version="2.0.7" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
