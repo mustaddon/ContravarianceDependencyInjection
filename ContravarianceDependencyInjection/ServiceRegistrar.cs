@@ -9,12 +9,12 @@ internal static class ServiceRegistrar
 {
     public static void Register(IServiceCollection services, Type serviceType, SearchStrategy strategy, ServiceLifetime lifetime)
     {
-        var serviceKey = $"variance_{Guid.NewGuid():N}";
+        var serviceKey = string.Concat(KEY_PREFIX, Guid.NewGuid().ToString("N"));
 
         var proxyType = ProxyFactory.CreateType(serviceType,
             new CustomAttributeBuilder(_fromKeyedServicesAttributeCtor, [serviceKey]));
 
-        var existGenericService = services.LastOrDefault(s => s.ServiceType == serviceType && !s.IsKeyedService && s.ImplementationType?.IsProxyType() == false);
+        var existGenericService = services.LastOrDefault(s => s.ServiceType == serviceType && !s.IsKeyedService && s.ImplementationType != null && !s.ImplementationType.IsContravarianceDI());
         var existGenericImplementation = existGenericService?.ImplementationType;
 
         if (existGenericImplementation != null)
@@ -29,6 +29,8 @@ internal static class ServiceRegistrar
         services.Add(new ServiceDescriptor(serviceType, proxyType, lifetime));
     }
 
+    internal const string KEY_PREFIX = "ContravarianceDI_";
 
     static readonly ConstructorInfo _fromKeyedServicesAttributeCtor = typeof(FromKeyedServicesAttribute).GetConstructor([typeof(object)])!;
+
 }
