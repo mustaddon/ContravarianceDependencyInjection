@@ -23,7 +23,7 @@ internal static class ServiceRegistrar
 
         services.AddKeyedSingleton(serviceKey, (s, k) => new ServiceTypeAdapter(services, serviceType, strategy));
 
-        services.AddKeyedTransient(serviceKey, (s, k) => ProxyHandlerFactory.Create(s, k, existGenericImplementation));
+        services.AddKeyedTransient(serviceKey, (s, k) => ProxyHandlerFactory.Create(s, k, serviceType, existGenericImplementation));
 
         services.Add(new ServiceDescriptor(serviceType, proxyType, lifetime));
     }

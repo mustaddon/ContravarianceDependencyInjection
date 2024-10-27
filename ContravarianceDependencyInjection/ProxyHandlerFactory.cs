@@ -5,12 +5,28 @@ namespace ContravarianceDependencyInjection;
 
 internal class ProxyHandlerFactory
 {
-    public static ProxyHandler Create(IServiceProvider services, object? serviceKey, Type? defaultGenericServiceType)
+    public static ProxyHandler Create(IServiceProvider services, object? serviceKey, Type serviceType, Type? defaultGenericServiceType)
+    {
+        var handler = CreateBase(services, serviceKey, defaultGenericServiceType);
+
+        if (!typeof(IDisposable).IsAssignableFrom(serviceType))
+            return handler;
+
+        return (proxy, method, args) => 
+        {
+            if (method.DeclaringType == typeof(IDisposable))
+                return null;
+
+            return handler(proxy, method, args);
+        };
+    }
+
+    static ProxyHandler CreateBase(IServiceProvider services, object? serviceKey, Type? defaultGenericServiceType)
     {
         var serviceTypeAdapter = services.GetRequiredKeyedService<ServiceTypeAdapter>(serviceKey);
         var serviceFactory = GetServiceFactory(services, serviceKey, defaultGenericServiceType);
 
-        return new ProxyHandler((proxy, method, args) =>
+        return (proxy, method, args) =>
         {
             var targetType = proxy.GetDeclaringType();
 
@@ -19,7 +35,7 @@ internal class ProxyHandlerFactory
             var service = serviceFactory(targetType, serviceType);
 
             return method.Invoke(service, args);
-        });
+        };
     }
 
     static Func<Type, Type?, object> GetServiceFactory(IServiceProvider services, object? serviceKey, Type? defaultGenericServiceType)
