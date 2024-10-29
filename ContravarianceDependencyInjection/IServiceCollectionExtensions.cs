@@ -4,9 +4,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ContravarianceDIServiceCollectionExtensions
 {
-    public static IServiceCollection AddContravariance(this IServiceCollection services,
-        Type serviceType, 
-        SearchStrategy strategy = SearchStrategy.LastRegistred)
+    public static IServiceCollection AddContravariance(this IServiceCollection services, Type serviceType, SearchStrategy strategy = SearchStrategy.LastRegistred)
     {
         if (!serviceType.IsInterface)
             throw new ArgumentException($"'{serviceType}' is not interface.");
