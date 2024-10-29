@@ -5,14 +5,14 @@ namespace ContravarianceDependencyInjection;
 
 internal class ProxyHandlerFactory
 {
-    public static ProxyHandler Create(IServiceProvider services, object? serviceKey, Type serviceType, Type? defaultGenericServiceType)
+    public static ProxyHandler Create(IServiceProvider services, object? serviceKey, Type serviceType)
     {
-        var handler = CreateBase(services, serviceKey, defaultGenericServiceType);
+        var handler = CreateBase(services, serviceKey);
 
         if (!typeof(IDisposable).IsAssignableFrom(serviceType))
             return handler;
 
-        return (proxy, method, args) => 
+        return (proxy, method, args) =>
         {
             if (method.DeclaringType == typeof(IDisposable))
                 return null;
@@ -21,10 +21,9 @@ internal class ProxyHandlerFactory
         };
     }
 
-    static ProxyHandler CreateBase(IServiceProvider services, object? serviceKey, Type? defaultGenericServiceType)
+    static ProxyHandler CreateBase(IServiceProvider services, object? serviceKey)
     {
         var serviceTypeAdapter = services.GetRequiredKeyedService<ServiceTypeAdapter>(serviceKey);
-        var serviceFactory = GetServiceFactory(services, serviceKey, defaultGenericServiceType);
 
         return (proxy, method, args) =>
         {
@@ -32,25 +31,11 @@ internal class ProxyHandlerFactory
 
             var serviceType = serviceTypeAdapter.GetServiceType(targetType);
 
-            var service = serviceFactory(targetType, serviceType);
+            var service = serviceType != null
+                ? services.GetRequiredService(serviceType)
+                : services.GetRequiredKeyedService(targetType, serviceKey);
 
             return method.Invoke(service, args);
-        };
-    }
-
-    static Func<Type, Type?, object> GetServiceFactory(IServiceProvider services, object? serviceKey, Type? defaultGenericServiceType)
-    {
-        return (targetType, serviceType) =>
-        {
-            if (serviceType != null)
-                return services.GetRequiredService(serviceType);
-
-            if (defaultGenericServiceType != null)
-                return services.GetRequiredKeyedService(
-                    defaultGenericServiceType.MakeGenericType(targetType.GenericTypeArguments),
-                    serviceKey);
-
-            throw new InvalidOperationException($"Could not find a matching registered service for type '{targetType}'.");
         };
     }
 }

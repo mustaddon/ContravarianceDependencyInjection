@@ -6,7 +6,7 @@ namespace ContravarianceDependencyInjection;
 
 internal static class ServiceRegistrar
 {
-    public static void Register(IServiceCollection services, Type serviceType, SearchStrategy strategy, ServiceLifetime lifetime)
+    public static void Register(IServiceCollection services, Type serviceType, SearchStrategy strategy)
     {
         var serviceKey = string.Concat(KEY_PREFIX, Guid.NewGuid().ToString("N"));
 
@@ -14,18 +14,15 @@ internal static class ServiceRegistrar
             new CustomAttributeBuilder(typeof(FromKeyedServicesAttribute).GetConstructor([typeof(object)])!, [serviceKey]));
 
         var existGenericService = services.LastOrDefault(s => s.ServiceType == serviceType && !s.IsKeyedService && s.ImplementationType != null && !s.ImplementationType.IsContravarianceDI());
-        var existGenericImplementation = existGenericService?.ImplementationType;
 
-        if (existGenericImplementation != null)
-        {
-            services.Add(new ServiceDescriptor(existGenericImplementation, serviceKey, existGenericImplementation, existGenericService!.Lifetime));
-        }
+        if (existGenericService != null)
+            services.Add(new ServiceDescriptor(serviceType, serviceKey, existGenericService.ImplementationType!, existGenericService.Lifetime));
 
         services.AddKeyedSingleton(serviceKey, (s, k) => new ServiceTypeAdapter(services, serviceType, strategy));
 
-        services.AddKeyedTransient(serviceKey, (s, k) => ProxyHandlerFactory.Create(s, k, serviceType, existGenericImplementation));
+        services.AddKeyedTransient(serviceKey, (s, k) => ProxyHandlerFactory.Create(s, k, serviceType));
 
-        services.Add(new ServiceDescriptor(serviceType, proxyType, lifetime));
+        services.AddTransient(serviceType, proxyType);
     }
 
     internal const string KEY_PREFIX = "ContravarianceDI_";
