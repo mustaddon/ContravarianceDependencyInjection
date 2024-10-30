@@ -36,4 +36,4 @@ Console.WriteLine("  Result: " +
 [Program.cs](https://github.com/mustaddon/ContravarianceDependencyInjection/blob/main/Example/Program.cs)
 
 ### Concept
-[<img src="https://raw.githubusercontent.com/mustaddon/ContravarianceDependencyInjection/master/dgrm.png" width="600" />](https://app.dgrm.net/)
+[<img src="https://raw.githubusercontent.com/mustaddon/ContravarianceDependencyInjection/master/dgrm.png" width="600" />](https://app.dgrm.net/?u=https://raw.githubusercontent.com/mustaddon/ContravarianceDependencyInjection/master/dgrm.png)
