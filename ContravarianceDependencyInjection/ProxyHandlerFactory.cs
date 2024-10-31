@@ -23,19 +23,17 @@ internal class ProxyHandlerFactory
 
     static ProxyHandler CreateBase(IServiceProvider services, object? serviceKey)
     {
-        var serviceTypeAdapter = services.GetRequiredKeyedService<ServiceTypeAdapter>(serviceKey);
-
-        return (proxy, method, args) =>
+        return (proxy, method, args) => method.Invoke(proxy.GetOrAddState(() =>
         {
             var targetType = proxy.GetDeclaringType();
 
-            var serviceType = serviceTypeAdapter.GetServiceType(targetType);
+            var serviceType = services
+                .GetRequiredKeyedService<ServiceTypeAdapter>(serviceKey)
+                .GetServiceType(targetType);
 
-            var service = serviceType != null
+            return serviceType != null
                 ? services.GetRequiredService(serviceType)
                 : services.GetRequiredKeyedService(targetType, serviceKey);
-
-            return method.Invoke(service, args);
-        };
+        }), args);
     }
 }
