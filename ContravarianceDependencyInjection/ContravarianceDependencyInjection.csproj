@@ -16,8 +16,8 @@
     <PackageId>ContravarianceDependencyInjection</PackageId>
     <Product>ContravarianceDependencyInjection</Product>
     <Title>ContravarianceDependencyInjection</Title>
-    <Description>Contravariance extensions to IServiceCollection</Description>
-    <PackageTags>contravariance dependency-injection contravariant di DependencyInjection service-provider service-collection extension</PackageTags>
+    <Description>Contravariant and Covariant injection for Microsoft.Extensions.DependencyInjection</Description>
+    <PackageTags>contravariance covariance dependency-injection contravariant covariant di DependencyInjection service-provider service-collection extensions</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/mustaddon/ContravarianceDependencyInjection</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mustaddon/ContravarianceDependencyInjection</RepositoryUrl>

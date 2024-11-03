@@ -1,7 +1,13 @@
 # ContravarianceDependencyInjection [![NuGet version](https://badge.fury.io/nu/ContravarianceDependencyInjection.svg?7)](http://badge.fury.io/nu/ContravarianceDependencyInjection)
-Contravariance extensions to IServiceCollection.
+Contravariant and Covariant injection for Microsoft.Extensions.DependencyInjection.
 
 ### Example
+```C#
+interface IExampleContravariant<in T>
+{
+    object? MyMethod(T request);
+}
+```
 ```C#
 var services = new ServiceCollection()
     .AddTransient<IExampleContravariant<ContractBase>, ExampleService<ContractBase>>()
