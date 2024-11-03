@@ -1,6 +1,17 @@
 ﻿
 namespace Example;
 
+internal class ExampleContravariant<Tin> : ExampleService<Tin, object>
+{
+
+}
+
+internal class ExampleCovariant<Tout> : ExampleService<object, Tout>
+{
+
+}
+
+
 internal class ExampleService<Tin, Tout> : 
     IExampleDisposableContravariant<Tin>, 
     IExampleDisposableCovariant<Tout>,

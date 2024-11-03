@@ -10,14 +10,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection()
     // Contravariance test services
-    .AddTransient<IExampleContravariant<ContractBase>, ExampleService<ContractBase, object>>()
-    .AddTransient<IExampleContravariant<ContractAB>, ExampleService<ContractAB, object>>()
-    .AddTransient<IExampleContravariant<ContractA>, ExampleService<ContractA, object>>()
+    .AddTransient<IExampleContravariant<ContractBase>, ExampleContravariant<ContractBase>>()
+    .AddTransient<IExampleContravariant<ContractAB>, ExampleContravariant<ContractAB>>()
+    .AddTransient<IExampleContravariant<ContractA>, ExampleContravariant<ContractA>>()
     // REQUIRED: Adds contravariance injection for registred IExampleContravariant services 
     .AddContravariance(typeof(IExampleContravariant<>), SearchStrategy.MaxCloser)
 
     // Covariance test services
-    .AddTransient<IExampleCovariant<ContractABC>, ExampleService<object, ContractABC>>()
+    .AddTransient<IExampleCovariant<ContractABC>, ExampleCovariant<ContractABC>>()
     .AddContravariance(typeof(IExampleCovariant<>))
 
     // Both variance test services
