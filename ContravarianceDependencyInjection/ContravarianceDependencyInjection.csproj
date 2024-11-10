@@ -7,9 +7,9 @@
 	<LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
 	<AssemblyOriginatorKeyFile>..\ContravarianceDependencyInjection.snk</AssemblyOriginatorKeyFile>
-    <AssemblyVersion>1.1.3</AssemblyVersion>
-    <FileVersion>1.1.3</FileVersion>
-    <Version>1.1.3</Version>
+    <AssemblyVersion>1.1.4</AssemblyVersion>
+    <FileVersion>1.1.4</FileVersion>
+    <Version>1.1.4</Version>
     <Company></Company>
     <Authors>Leonid Salavatov</Authors>
     <Copyright>Leonid Salavatov 2024</Copyright>
@@ -17,7 +17,7 @@
     <Product>ContravarianceDependencyInjection</Product>
     <Title>ContravarianceDependencyInjection</Title>
     <Description>Contravariant and Covariant injection for Microsoft.Extensions.DependencyInjection</Description>
-    <PackageTags>contravariance covariance dependency-injection contravariant covariant di DependencyInjection service-provider service-collection extensions</PackageTags>
+    <PackageTags>contravariance covariance variance dependency-injection contravariant covariant di DependencyInjection service-provider service-collection extensions</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/mustaddon/ContravarianceDependencyInjection</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mustaddon/ContravarianceDependencyInjection</RepositoryUrl>

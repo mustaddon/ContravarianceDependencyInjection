@@ -25,5 +25,5 @@ internal static class ServiceRegistrar
         services.AddTransient(serviceType, proxyType);
     }
 
-    internal const string KEY_PREFIX = "ContravarianceDI_";
+    internal const string KEY_PREFIX = "_proxy_contravariance_";
 }
