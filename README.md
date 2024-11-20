@@ -1,5 +1,5 @@
 # ContravarianceDependencyInjection [![NuGet version](https://badge.fury.io/nu/ContravarianceDependencyInjection.svg?7)](http://badge.fury.io/nu/ContravarianceDependencyInjection)
-Contravariant and Covariant injection for Microsoft.Extensions.DependencyInjection.
+Contravariant and Covariant injection for Microsoft.Extensions.DependencyInjection using the [Proxy pattern](https://en.wikipedia.org/wiki/Proxy_pattern).
 
 ### Example
 ```C#
